@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="822d3aa3-9e5f-4af9-b13c-8fc44520eae8" name="udo" url="http://3.92.190.231">
+        <fileTransfer host="3.92.190.231" port="22" privateKey="C:\xampp\htdocs\projects\u_do\udo_virginia.pem" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
