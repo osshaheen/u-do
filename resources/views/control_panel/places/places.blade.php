@@ -3,10 +3,37 @@
 @section('style')
     <link href="{{asset('/control_panel/assets/node_modules/switchery/dist/switchery.min.css')}}" rel="stylesheet" />
     <link href="{{asset('/control_panel/assets/node_modules/bootstrap-switch/bootstrap-switch.min.css')}}" rel="stylesheet">
+    <link href="{{asset('/control_panel/assets/node_modules/dropify/dist/css/dropify.min.css')}}" rel="stylesheet">
     <link href="{{asset('/control_panel/dist/css/pages/bootstrap-switch.css')}}" rel="stylesheet">
 @endsection
 
 @section('content')
+    <div id="modalDiv" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="mySmallModalLabel">import data via excel</h4>
+                    <button type="button" onclick="hideModal()" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">File Upload1</h4>
+                                <form action="{{ route('places.addPlaceWithExcel') }}" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" name="excel_file" onchange="submitModalForm(this)" id="input-file-now" class="dropify" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
     <div class="row page-titles">
         <div class="col-md-5 align-self-center">
             <h4 class="text-themecolor">{{ trans('Places/places.Places_title') }}</h4>
@@ -17,6 +44,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active"><a href="{{ route('places.index') }}">{{ trans('Places/places.Places_title') }}</a></li>
                 </ol>
+                    <a href="#!" onclick="showModal()" class="btn btn-primary d-none d-lg-block m-l-15"><i class="fa fa-file-excel-o"></i>{{ trans('Places/places.Upload_Excel') }}</a>
                     <a href="{{ route('places.create') }}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i>{{ trans('Places/places.Create_Place') }}</a>
                     <a href="{{ route('places.trashed') }}" class="btn btn-danger d-none d-lg-block m-l-15"><i class="fa fa-trash"></i> {{ trans('Places/places.Trashed_Places') }}</a>
                 @else
@@ -158,5 +186,62 @@
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ]
         });
+    </script>
+    <script src="{{asset('/control_panel/assets/node_modules/dropify/dist/js/dropify.min.js')}}"></script>
+    <script>
+        $(document).ready(function() {
+            // Basic
+            $('.dropify').dropify();
+
+            // Translated
+            $('.dropify-fr').dropify({
+                messages: {
+                    default: 'Glissez-déposez un fichier ici ou cliquez',
+                    replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+                    remove: 'Supprimer',
+                    error: 'Désolé, le fichier trop volumineux'
+                }
+            });
+
+            // Used events
+            var drEvent = $('#input-file-events').dropify();
+
+            drEvent.on('dropify.beforeClear', function(event, element) {
+                return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+            });
+
+            drEvent.on('dropify.afterClear', function(event, element) {
+                alert('File deleted');
+            });
+
+            drEvent.on('dropify.errors', function(event, element) {
+                console.log('Has Errors');
+            });
+
+            var drDestroy = $('#input-file-to-destroy').dropify();
+            drDestroy = drDestroy.data('dropify')
+            $('#toggleDropify').on('click', function(e) {
+                e.preventDefault();
+                if (drDestroy.isDropified()) {
+                    drDestroy.destroy();
+                } else {
+                    drDestroy.init();
+                }
+            })
+        });
+    </script>
+    <script>
+        function showModal() {
+            document.getElementById('modalDiv').classList.add('show');
+            document.getElementById('modalDiv').style.display = 'block';
+        }
+        function hideModal() {
+            document.getElementById('modalDiv').classList.remove('show');
+            document.getElementById('modalDiv').style.display = 'none';
+        }
+        function submitModalForm(obj) {
+            obj.parentElement.parentElement.submit();
+            console.log(obj.parentElement.parentElement);
+        }
     </script>
 @endsection

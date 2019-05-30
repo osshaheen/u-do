@@ -575,6 +575,7 @@
         /* ***** Custom Library for Delete Overlay Button (End) ***** */
 
     </script>
+    <!--AIzaSyAzPYbomJTL-BsrRLcyTylji67B55_q_3Q-->
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=key&language=ar&region=EG&libraries=drawing&callback=initMap">
     </script>
@@ -591,6 +592,7 @@
                 document.getElementById('{{$selected_side_item}}').classList.add('selected');
             }
             if (parseInt('{{$address_trigger}}')) {
+                // console.log('dd');
                 marker = new google.maps.Marker({
                     position: {
                         'lat': parseFloat('{{$branch->address_lat}}'),
@@ -607,7 +609,7 @@
                     'lng': parseFloat('{{$branch->address_lng}}')
                 });
                 marker.addListener('dragend', function (e) {
-                    console.log('dragend');
+                    // console.log('dragend');
                     map.setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
                     if(marker.id){
                         console.log(document.getElementById('detailed_address').value);
@@ -631,83 +633,83 @@
                     }
                 });
             }
-        };
-    map.addListener('click', function(e) {
-        if(!marker && !parseInt('{{$address_trigger}}')) {
-            {{--console.log(!marker,!parseInt('{{$address_trigger}}'));--}}
-            marker = new google.maps.Marker({
-                position: {'lat': e.latLng.lat(), 'lng': e.latLng.lng()},
-                map: map,
-                title: 'Click to zoom',
-                draggable:true,
-            });
-            // console.log(document.getElementById('detailed_address').value);
-            form_data.append('city_id',document.getElementById('city_id').value);
-            form_data.append('detailed_address',document.getElementById('detailed_address').value);
-            form_data.append('points',JSON.stringify({'lat': e.latLng.lat(),'lng': e.latLng.lng()}));
-            $.ajax(
-                {
-                    url: "{{route('addMarker')}}", // point to server-side PHP script
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    data: form_data,
-                    type: 'post',
-                    success: function (data, status) {
-                        marker.id = data;
-                        console.log(data);
-                    }
-                });
-            marker.addListener('dragend', function(e) {
-                map.setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
-                if(marker.id){
+            map.addListener('click', function(e) {
+                if(!marker && !parseInt('{{$address_trigger}}')) {
+                    {{--console.log(!marker,!parseInt('{{$address_trigger}}'));--}}
+                        marker = new google.maps.Marker({
+                        position: {'lat': e.latLng.lat(), 'lng': e.latLng.lng()},
+                        map: map,
+                        title: 'Click to zoom',
+                        draggable:true,
+                    });
                     // console.log(document.getElementById('detailed_address').value);
-                    form_data.append('id',marker.id);
                     form_data.append('city_id',document.getElementById('city_id').value);
                     form_data.append('detailed_address',document.getElementById('detailed_address').value);
                     form_data.append('points',JSON.stringify({'lat': e.latLng.lat(),'lng': e.latLng.lng()}));
                     $.ajax(
                         {
-                            url: "{{route('updateMarker')}}", // point to server-side PHP script
+                            url: "{{route('addMarker')}}", // point to server-side PHP script
                             cache: false,
                             contentType: false,
                             processData: false,
                             data: form_data,
                             type: 'post',
                             success: function (data, status) {
-                                // marker.id = data.id;
-                                // console.log(data);
+                                marker.id = data;
+                                console.log(data);
                             }
                         });
-                }
-            });
-        }else{
-            {{--console.log('no address', parseInt('{{$address_trigger}}'));--}}
-            marker.setPosition({'lat': e.latLng.lat(), 'lng': e.latLng.lng()});
-            if(marker.id){
-                console.log(document.getElementById('detailed_address').value);
-                form_data.append('id',marker.id);
-                form_data.append('city_id',document.getElementById('city_id').value);
-                form_data.append('detailed_address',document.getElementById('detailed_address').value);
-                form_data.append('points',JSON.stringify({'lat': e.latLng.lat(),'lng': e.latLng.lng()}));
-                $.ajax(
-                    {
-                        url: "{{route('updateMarker')}}", // point to server-side PHP script
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        data: form_data,
-                        type: 'post',
-                        success: function (data, status) {
-                            // marker.id = data.id;
-                            console.log(data);
+                    marker.addListener('dragend', function(e) {
+                        map.setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
+                        if(marker.id){
+                            // console.log(document.getElementById('detailed_address').value);
+                            form_data.append('id',marker.id);
+                            form_data.append('city_id',document.getElementById('city_id').value);
+                            form_data.append('detailed_address',document.getElementById('detailed_address').value);
+                            form_data.append('points',JSON.stringify({'lat': e.latLng.lat(),'lng': e.latLng.lng()}));
+                            $.ajax(
+                                {
+                                    url: "{{route('updateMarker')}}", // point to server-side PHP script
+                                    cache: false,
+                                    contentType: false,
+                                    processData: false,
+                                    data: form_data,
+                                    type: 'post',
+                                    success: function (data, status) {
+                                        // marker.id = data.id;
+                                        // console.log(data);
+                                    }
+                                });
                         }
                     });
-            }
-        }
-        map.setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
-        console.log('map-click');
-    });
+                }else{
+                    {{--console.log('no address', parseInt('{{$address_trigger}}'));--}}
+                    marker.setPosition({'lat': e.latLng.lat(), 'lng': e.latLng.lng()});
+                    if(marker.id){
+                        console.log(document.getElementById('detailed_address').value);
+                        form_data.append('id',marker.id);
+                        form_data.append('city_id',document.getElementById('city_id').value);
+                        form_data.append('detailed_address',document.getElementById('detailed_address').value);
+                        form_data.append('points',JSON.stringify({'lat': e.latLng.lat(),'lng': e.latLng.lng()}));
+                        $.ajax(
+                            {
+                                url: "{{route('updateMarker')}}", // point to server-side PHP script
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                data: form_data,
+                                type: 'post',
+                                success: function (data, status) {
+                                    // marker.id = data.id;
+                                    console.log(data);
+                                }
+                            });
+                    }
+                }
+                map.setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
+                console.log('map-click');
+            });
+        };
 
     </script>
 @endsection

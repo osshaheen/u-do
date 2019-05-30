@@ -38,6 +38,7 @@
                         <table id="myTable" class="table table-bordered table-striped">
                             <thead>
                             <tr>
+                                <th>id</th>
                                 <th>{{ trans('service_types/service_types.Name') }}</th>
                                 <th>{{ trans('service_types/service_types.description') }}</th>
                                 <th>{{ trans('service_types/service_types.price') }}</th>
@@ -53,6 +54,7 @@
                             <tbody>
                             @foreach($service_types as $service_type)
                                 <tr>
+                                    <td>{{ $service_type->id }}</td>
                                     <td><a href="{{ route('service_types.show',$service_type->id) }}">{{$service_type->name}}</a></td>
                                     <td>{{$service_type->description}}</td>
                                     <td>{{$service_type->price}}</td>

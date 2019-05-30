@@ -82,6 +82,7 @@ Route::middleware(['set_lang'])->group(function () {
     Route::resource('/places', 'PlaceController');
     Route::get('/restorePlace/{place_id}', 'PlaceController@restorePlace')->name('places.restore');
     Route::get('/trashedPlaces', 'PlaceController@trashedPlaces')->name('places.trashed');
+    Route::post('/addPlaceWithExcel', 'PlaceController@addPlaceWithExcel')->name('places.addPlaceWithExcel');
 
     Route::get('/placeMedia/{place_id}', 'PlaceController@placeMedia')->name('places.media');
     Route::resource('/placesMedia', 'PlaceMediaController')->except('create', 'index');

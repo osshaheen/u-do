@@ -18,7 +18,7 @@
                     <li class="breadcrumb-item active"><a href="{{ route('places.media',$place->id) }}">{{ trans('Places/place_media.Show_Media_of') }} {{ $place->name }}</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('places.index')}}">{{ trans('Places/place_media.Places_title') }}</a></li>
                 </ol>
-                    <a href="{{ route('places.media.create',$place->id) }}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> {{ trans('Places/place_media.Create_Place') }}</a>
+                    <a href="{{ route('places.media.create',$place->id) }}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> {{ trans('Places/place_media.Create_Place_Media') }}</a>
                     <a href="{{ route('places.media.trashed',$place->id) }}" class="btn btn-danger d-none d-lg-block m-l-15"><i class="fa fa-trash"></i>{{ trans('Places/place_media.Trashed_Places') }}</a>
                 @else
                     <ol class="breadcrumb">

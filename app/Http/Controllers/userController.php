@@ -54,6 +54,7 @@ class userController extends Controller
     {
         hasPermission('store user');
         $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
 //        $input['phone_verified_at'] = Date::now();
         $user = User::create($input);
         if($request->provider_name){
@@ -125,8 +126,14 @@ class userController extends Controller
     public function destroy(User $user)
     {
         hasPermission('delete user');
-        $user->delete();
-        return redirect()->back()->with(['msg' => 'a user data is deleted', 'type' => 'success']);
+//        dd($user->hasRole('super admin'));
+        if(!$user->hasRole('super admin')) {
+            $user->delete();
+//            dd(1);
+            return redirect()->back()->with(['msg' => 'a user data is deleted', 'type' => 'success']);
+        }else{
+            return redirect()->back()->with(['msg' => 'super admin can\'t be deleted', 'type' => 'warning']);
+        }
     }
     public function makeProvider(User $user){
         hasPermission('user make provider');

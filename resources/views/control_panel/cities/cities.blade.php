@@ -38,6 +38,7 @@
                         <table id="myTable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
+                                    <th>id</th>
                                     <th>{{ trans('cities/cities.name') }}</th>
                                     <th>{{ trans('cities/cities.state') }}</th>
                                     <th>{{ trans('cities/cities.country') }}</th>
@@ -53,6 +54,7 @@
                             <tbody>
                                 @foreach($cities as $city)
                                     <tr>
+                                        <td>{{$city->id}}</td>
                                         <td>{{$city->name}}</td>
                                         <td>{{$city->state_name}}</td>
                                         <td>{{$city->country_name}}</td>

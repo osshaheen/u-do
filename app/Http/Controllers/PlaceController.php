@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\newPlaceRequest;
 use App\Http\Requests\updatePlaceRequest;
+use App\Imports\PlaceBranches;
 use App\Place;
 use App\ServiceType;
+use Importer;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PlaceController extends Controller
 {
@@ -124,5 +127,21 @@ class PlaceController extends Controller
 //        dd($place);
         $trashTrigger = 0;
         return view('control_panel.places.media',compact('place','trashTrigger'));
+    }
+    public function addPlaceWithExcel(Request $request){
+//        dd($request);
+        $file = $request->file('excel_file')->store('public','public');
+        $excel = Importer::make('Excel');
+        $excel->load(public_path().'/storage/'.$file);
+        $collection = $excel->getCollection();
+        $place = Place::create([
+            'name_en'=>$collection[1][2],
+            'bio_en'=>$collection[1][3],
+            'name_ar'=>$collection[1][2],
+            'bio_ar'=>$collection[1][3],
+            'service_type_id'=>$collection[1][1],
+        ]);
+        Excel::import(new PlaceBranches($place->id), public_path().'/storage/'.$file);
+        dd($place);
     }
 }

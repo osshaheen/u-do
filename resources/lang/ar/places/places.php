@@ -5,6 +5,7 @@ return [
     'Places_title' =>'الاماكن',
     'Trashed_Places' =>'المحذوفات',
     'Create_Place' =>'انشاء مكان',
+    'Upload_Excel' =>'اضافة ملف اكسل',
     'name' =>'الاسم',
     'bio' =>'نبذة',
     'media' =>'الوسائط',
